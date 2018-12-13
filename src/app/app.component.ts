@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatSidenav) sidebarComponent: MatSidenav;
 
-  title = 'Avantis Itens App';
+  title = 'ACME Itens App';
   isMobile = this.$resolution.isMobile;
 
   ngOnInit() {
@@ -34,15 +34,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
               .subscribe(state => this.isMobile = state.matches),
           this.$sidebar
               .asObservable()
-              .subscribe(toogle => {
-                if (this.sidebarComponent) {
-                  if (toogle) {
-                    this.sidebarComponent.open();
-                  } else {
-                    this.sidebarComponent.close();
-                  }
-                }
-              }),
+              .subscribe(toogle => this.toogleSidebar(toogle)),
         );
 
     this.$menu
@@ -64,12 +56,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.$sidebar.value) {
-      this.sidebarComponent.open();
-    } else {
-      this.sidebarComponent.close();
-    }
+    this.toogleSidebar(this.$sidebar.value);
     this.$cdr.detectChanges();
+  }
+
+  protected toogleSidebar(toogle: boolean) {
+    if (this.sidebarComponent) {
+      if (toogle) {
+        this.sidebarComponent.open();
+      } else {
+        this.sidebarComponent.close();
+      }
+    }
   }
 
 }

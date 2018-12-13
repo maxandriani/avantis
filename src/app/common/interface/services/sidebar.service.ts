@@ -14,6 +14,14 @@ export class SidebarService implements OnDestroy {
     this.stream$.next( ! this.stream$.value );
   }
 
+  open(): void {
+    this.stream$.next(true);
+  }
+
+  close(): void {
+    this.stream$.next(false);
+  }
+
   get value() {
     return this.stream$.value;
   }
