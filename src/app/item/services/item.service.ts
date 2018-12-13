@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ItemEntity } from '../entities/item.entity';
 import { AvlTree } from 'src/app/common/core/structs/avl-tree';
 import { IllegalOperationError } from 'src/app/common/core/errors/illegal-operation.error';
 import { classToClass } from 'class-transformer';
-import { IItemService } from './contracts/i-item-service';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
+import { IItemService } from './contracts/i-item.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,14 @@ export class ItemService implements IItemService {
   static readonly ItemAutoIncrementKey = 'itenAutoIncrementIdx';
   static readonly ItemStorageKey = 'itens';
 
-  constructor() {
+  constructor(
+  ) {
     const itemsString = localStorage.getItem(ItemService.ItemStorageKey) || '[]';
     this.itemVault.batch(JSON.parse(itemsString));
   }
 
   protected itemVault = new AvlTree<number, ItemEntity>();
+  protected stream$ = new EventEmitter<void>();
 
   protected incrementId(): number {
     let id = parseInt(localStorage.getItem(ItemService.ItemAutoIncrementKey), 10) || 1;
@@ -33,6 +35,10 @@ export class ItemService implements IItemService {
 
   protected persistVault() {
     localStorage.setItem(ItemService.ItemStorageKey, JSON.stringify( this.itemVault.serialize() ) );
+  }
+
+  asObservable(): Observable<void> {
+    return this.stream$.asObservable();
   }
 
   async save(entity: ItemEntity): Promise<ItemEntity> {
@@ -53,7 +59,7 @@ export class ItemService implements IItemService {
     }
 
     this.persistVault();
-
+    this.stream$.next(); // Tell every one else that data is changed
     return entity;
   }
 
@@ -70,14 +76,28 @@ export class ItemService implements IItemService {
 
     this.itemVault.remove(item.id);
     this.persistVault();
+    this.stream$.next();
   }
 
-  find(filters: any, take = 10, skip = 0, order?: string[]): Observable<ItemEntity[]> {
+  find(filters: any, take = 10, skip = 0, order?: Object): Observable<ItemEntity[]> {
     return of(this.computeList())
       .pipe(
         map(r => this.computeFilter(filters, r)),
         map(r => this.computeSort(order, r))
       );
+  }
+
+  all(take = 10, skip = 0, order?: Object): Observable<ItemEntity[]> {
+    return this.find(undefined, take, skip, order);
+  }
+
+  async count(filters: any): Promise<number> {
+    return this.find(filters)
+               .pipe(
+                 first(),
+                 map(r => r.length)
+                )
+               .toPromise();
   }
 
   async get(id: number): Promise<ItemEntity> {
@@ -88,7 +108,7 @@ export class ItemService implements IItemService {
     return items;
   }
 
-  protected computeSort(order: string[], items: ItemEntity[]): ItemEntity[] {
+  protected computeSort(order: Object, items: ItemEntity[]): ItemEntity[] {
     return items;
   }
 

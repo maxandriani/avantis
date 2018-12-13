@@ -4,6 +4,7 @@ import { MenuService } from './common/interface/services/menu.service';
 import { Subscription } from 'rxjs';
 import { SidebarService } from './common/interface/services/sidebar.service';
 import { MatSidenav } from '@angular/material';
+import { ItemSeederService } from './item/services/item-seeder.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     protected $resolution: ResolutionService,
     protected $sidebar: SidebarService,
     protected $cdr: ChangeDetectorRef,
-    protected $menu: MenuService /** @todo Mover para APP_INITIALIZER */
+    protected $menu: MenuService /** @todo Mover para APP_INITIALIZER */,
+    protected $items: ItemSeederService
   ) {}
 
   protected subscriptions: Subscription[] = [];
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
               .subscribe(toogle => this.toogleSidebar(toogle)),
         );
 
+    /** @todo migrar para APP_initializer */
     this.$menu
         .push([
           {
@@ -48,6 +51,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
             route: 'novo'
           }
         ]);
+
+    /** @TODO migrar para APP_INITIALIZER */
+    this.$items.seed();
   }
 
   ngOnDestroy() {
