@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ItemsPageComponent } from './pages/items-page/items-page.component';
+import { ItemGridPageComponent } from './pages/item-grid-page/item-grid-page.component';
 import { NovoItemPageComponent } from './pages/novo-item-page/novo-item-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ItemsPageComponent
+    component: ItemGridPageComponent
   },
   {
     path: 'novo',
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ItemsRoutingModule { }
+export class ItemRoutingModule { }

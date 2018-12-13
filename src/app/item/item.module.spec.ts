@@ -1,10 +1,10 @@
-import { ItemsModule } from './items.module';
+import { ItemModule } from './item.module';
 
 describe('ItemsModule', () => {
-  let itemsModule: ItemsModule;
+  let itemsModule: ItemModule;
 
   beforeEach(() => {
-    itemsModule = new ItemsModule();
+    itemsModule = new ItemModule();
   });
 
   it('should create an instance', () => {
