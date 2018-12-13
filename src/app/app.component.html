@@ -1,0 +1,15 @@
+<div class="app-container" [class.is-mobile]="isMobile">
+  <av-header [title]="title"></av-header>
+
+  <mat-sidenav-container class="sidenav-container"
+                         [class.is-mobile]="isMobile">
+    <mat-sidenav [mode]="isMobile ? 'over' : 'side'"
+                 [fixedInViewport]="isMobile" fixedTopGap="56">
+      <av-sidebar></av-sidebar>
+    </mat-sidenav>
+    <!-- router-outlet -->
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>    
+  </mat-sidenav-container>
+</div>
