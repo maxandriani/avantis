@@ -5,7 +5,6 @@ export class IllegalOperationError extends Error {
 
   constructor(
     message: string = IllegalOperationError.IllegalOperation,
-    isTranslateable: boolean = true
   ) {
     super(message);
   }
