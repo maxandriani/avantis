@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IItemFilterService } from './contracts/i-item-filter.service';
+import { ItemFilterEntity } from '../entities/item-filter.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,22 @@ export class ItemFilterService implements IItemFilterService {
 
   constructor() { }
 
-  protected filters = {};
+  protected filters: ItemFilterEntity = new ItemFilterEntity;
   protected $stream: BehaviorSubject<{}> = new BehaviorSubject<{}>(this.filters);
 
-  getFilters(): Object {
+  getFilters(): ItemFilterEntity {
     return this.filters;
   }
 
-  set(key: string, value: any): ItemFilterService {
-    this.filters[key] = value;
+  patch(values: Partial<ItemFilterEntity>): ItemFilterService {
+    for (const key of Object.keys(values)) {
+      this.filters[key] = values[key];
+    }
+    return this;
+  }
+
+  set(filter: ItemFilterEntity): ItemFilterService {
+    this.filters = filter;
     return this;
   }
 
@@ -26,7 +34,7 @@ export class ItemFilterService implements IItemFilterService {
   }
 
   clear(): void {
-    this.filters = {};
+    this.filters = new ItemFilterEntity;
     this.next();
   }
 

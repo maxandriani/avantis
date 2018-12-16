@@ -1,9 +1,11 @@
 import { ItemFilterService } from '../item-filter.service';
 import { Observable } from 'rxjs';
+import { ItemFilterEntity } from '../../entities/item-filter.entity';
 
 export interface IItemFilterService {
-  getFilters(): Object;
-  set(key: string, value: any): ItemFilterService;
+  getFilters(): ItemFilterEntity;
+  patch(values: Partial<ItemFilterEntity>): ItemFilterService;
+  set(values: ItemFilterEntity): ItemFilterService;
   next(): void;
   clear(): void;
   asObservable(): Observable<{}>;

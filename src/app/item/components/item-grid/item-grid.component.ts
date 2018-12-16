@@ -4,6 +4,7 @@ import { ItemDsService } from '../../services/item-ds.service';
 import { ItemService } from '../../services/item.service';
 import { ItemFilterService } from '../../services/item-filter.service';
 import { ItemEntity } from '../../entities/item.entity';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'av-item-grid',
@@ -13,11 +14,11 @@ import { ItemEntity } from '../../entities/item.entity';
 export class ItemGridComponent implements OnInit {
 
   constructor(
-    protected $itens: ItemService
+    protected $itens: ItemService,
+    protected $filters: ItemFilterService,
+    protected $router: Router
   ) {
   }
-
-  protected $filters = new ItemFilterService();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,10 +31,10 @@ export class ItemGridComponent implements OnInit {
   }
 
   async doEdit(item: ItemEntity): Promise<void> {
-
+    this.$router.navigate([`:${item.id}`]);
   }
 
   async doRemove(item: ItemEntity): Promise<void> {
-
+    this.$itens.remove(item);
   }
 }

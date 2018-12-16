@@ -13,7 +13,7 @@ const routes: Routes = [
     component: NovoItemPageComponent
   },
   {
-    path: 'novo/:itemId',
+    path: ':itemId',
     component: NovoItemPageComponent
   }
 ];

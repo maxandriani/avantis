@@ -5,8 +5,9 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { ItemService } from './item.service';
 import { Observable, of, merge } from 'rxjs';
 import { IItemDsService } from './contracts/i-item-ds.service';
-import { IItemFilterService } from './contracts/i-item-filter.service';
-import { flatMap, tap } from 'rxjs/operators';
+import { flatMap, tap, first } from 'rxjs/operators';
+import { ItemFilterEntity } from '../entities/item-filter.entity';
+import { ItemFilterService } from './item-filter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ItemDsService extends DataSource<ItemEntity> implements IItemDsServ
     protected $paginator: MatPaginator,
     protected $sort: MatSort,
     protected $itens: ItemService,
-    protected $filter: IItemFilterService
+    protected $filter: ItemFilterService
   ) {
     super();
   }
@@ -25,11 +26,11 @@ export class ItemDsService extends DataSource<ItemEntity> implements IItemDsServ
   connect(): Observable<ItemEntity[]> {
     // Criando um super observable...
     const dataMutations = [
-      of([]),
+      this.$filter.asObservable(),
       this.$itens.asObservable(),
       this.$paginator.page,
       this.$sort.sortChange,
-      this.$filter.asObservable()
+      of([])
     ];
 
     return merge(...dataMutations)
@@ -57,7 +58,7 @@ export class ItemDsService extends DataSource<ItemEntity> implements IItemDsServ
               );
   }
 
-  protected computeFilter(): Object {
+  protected computeFilter(): ItemFilterEntity {
     return this.$filter.getFilters();
   }
 

@@ -4,19 +4,14 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { PageComponent } from './page/page.component';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatCardModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatCardModule
+    MaterialModule
   ],
   declarations: [
     HeaderComponent,
@@ -28,13 +23,7 @@ import { RouterModule } from '@angular/router';
     HeaderComponent,
     SidebarComponent,
     BreadcrumbComponent,
-    PageComponent,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatCardModule
+    PageComponent
   ]
 })
 export class InterfaceModule { }

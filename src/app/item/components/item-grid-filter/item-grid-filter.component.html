@@ -1,11 +1,11 @@
 <!-- Filters -->
-<div class="filter-area">
+<div class="filter-area" [formGroup]="filters">
   <mat-form-field>
-    <input matInput placeholder="Nome">
+    <input matInput placeholder="Nome" formControlName="nome">
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select placeholder="Perecível">
+    <mat-select placeholder="Perecível" formControlName="isPerecivel">
       <mat-option value="">Todos</mat-option>
       <mat-option value="1">Perecíveis</mat-option>
       <mat-option value="0">Não Perecível</mat-option>
@@ -13,13 +13,13 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput [matDatepicker]="validade" placeholder="Validade">
+    <input matInput [matDatepicker]="validade" placeholder="Validade" formControlName="validade">
     <mat-datepicker-toggle matSuffix [for]="validade"></mat-datepicker-toggle>
     <mat-datepicker #validade></mat-datepicker>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput [matDatepicker]="fabricacao" placeholder="Fabricação">
+    <input matInput [matDatepicker]="fabricacao" placeholder="Fabricação" formControlName="fabricacao">
     <mat-datepicker-toggle matSuffix [for]="fabricacao"></mat-datepicker-toggle>
     <mat-datepicker #fabricacao></mat-datepicker>
   </mat-form-field>
