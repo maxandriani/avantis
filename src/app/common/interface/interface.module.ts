@@ -6,6 +6,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { PageComponent } from './page/page.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
+import { DialogErrorComponent } from './dialog-error/dialog-error.component';
 
 @NgModule({
   imports: [
@@ -17,13 +18,18 @@ import { MaterialModule } from '../material/material.module';
     HeaderComponent,
     SidebarComponent,
     BreadcrumbComponent,
-    PageComponent
+    PageComponent,
+    DialogErrorComponent
   ],
   exports: [
     HeaderComponent,
     SidebarComponent,
     BreadcrumbComponent,
-    PageComponent
+    PageComponent,
+    DialogErrorComponent
+  ],
+  entryComponents: [
+    DialogErrorComponent
   ]
 })
 export class InterfaceModule { }

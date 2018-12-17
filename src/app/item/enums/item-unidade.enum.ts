@@ -1,4 +1,4 @@
-export enum ItemUnitEnum {
+export enum ItemUnidadeEnum {
   Liter,
   Kilogram,
   Unity

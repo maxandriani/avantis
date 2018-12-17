@@ -1,38 +1,45 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { ItemUnitEnum } from '../enums/item-unidade.enum';
+import { Pipe, PipeTransform, OnInit } from '@angular/core';
+import { ItemUnidadeEnum } from '../enums/item-unidade.enum';
+import { DisplayItemUnidadeService } from '../services/display-item-unidade.service';
+import { IDisplayItemUnidade } from '../interfaces/i-display-item-unidade.interface';
 
 @Pipe({
   name: 'itemUnidade'
 })
 export class ItemUnidadePipe implements PipeTransform {
 
-  transform(value: number, unit?: ItemUnitEnum): any {
+  constructor(
+    protected $itemUnidade: DisplayItemUnidadeService
+  ) {}
+
+  protected unidades: IDisplayItemUnidade[] = [];
+  protected cache: { [key: string]: string } = {};
+
+  async transform(value: number, unit?: ItemUnidadeEnum): Promise<string> {
     let s = '';
 
     switch (unit) {
-      case ItemUnitEnum.Kilogram:
-      case ItemUnitEnum.Liter:
+      case ItemUnidadeEnum.Kilogram:
+      case ItemUnidadeEnum.Liter:
         s = value.toFixed(3);
         break;
-      case ItemUnitEnum.Unity:
+      case ItemUnidadeEnum.Unity:
         s = value.toFixed(0);
         break;
     }
 
-    s += ' ' + this.getUnit(unit);
+    s += ` ${await this.resolveUnit(unit)}`;
 
     return s;
   }
 
-  getUnit(unit) {
-    switch (unit) {
-      case ItemUnitEnum.Kilogram:
-        return 'kg';
-      case ItemUnitEnum.Liter:
-        return 'lt';
-      case ItemUnitEnum.Unity:
-        return 'un';
+  protected async resolveUnit(unit: ItemUnidadeEnum): Promise<string> {
+    if (!this.cache[unit.toString()]) {
+      this.cache[unit.toString()] = await this.$itemUnidade
+                                   .getAbbr(unit);
     }
+
+    return this.cache[unit.toString()];
   }
 
 }

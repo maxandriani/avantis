@@ -8,6 +8,11 @@ import { map, first } from 'rxjs/operators';
 import { IItemService } from './contracts/i-item.service';
 import { ItemFilterEntity } from '../entities/item-filter.entity';
 import { LATIN_SPECIAL_CHARS } from 'src/app/common/core/consts/latin-special-chars.const';
+import { ItemPrecoValidatorStrategyService } from './item-preco-validator-strategy.service';
+import { ItemQuantidadeValidatorStrategyService } from './item-quantidade-validator-strategy.service';
+import { ItemValidadeValidatorStrategyService } from './item-validade-validator-strategy.service';
+import { ItemFabricacaoValidatorStrategyService } from './item-fabricacao-validator-strategy.service';
+import { ErrorList } from 'src/app/common/core/errors/error-list';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +23,10 @@ export class ItemService implements IItemService {
   static readonly ItemStorageKey = 'itens';
 
   constructor(
+    protected $itemPrecoStrategy: ItemPrecoValidatorStrategyService,
+    protected $itemQuantidadeStrategy: ItemQuantidadeValidatorStrategyService,
+    protected $itemValidadeStrategy: ItemValidadeValidatorStrategyService,
+    protected $itemFabricacaoStrategy: ItemFabricacaoValidatorStrategyService
   ) {
     const itemsString = localStorage.getItem(ItemService.ItemStorageKey) || '[]';
     const items = JSON.parse(itemsString);
@@ -38,7 +47,40 @@ export class ItemService implements IItemService {
     return id;
   }
 
-  protected businessValidations(entity: ItemEntity) {}
+  protected async businessValidations(entity: ItemEntity) {
+    const res = [];
+
+    debugger;
+
+    res.push(
+      await this.$itemFabricacaoStrategy.validateBusiness(entity),
+      await this.$itemPrecoStrategy.validateBusiness(entity),
+      await this.$itemQuantidadeStrategy.validateBusiness(entity),
+      await this.$itemValidadeStrategy.validateBusiness(entity)
+    );
+
+    const errors = res.reduce((list, item) => {
+      if (!list) {
+        list = [];
+      }
+
+      if (item) {
+        for (const [key, value] of Object.entries(item)) {
+          if (value['error']) {
+            list.push(value['error']);
+          } else {
+            list.push(new Error(key));
+          }
+        }
+      }
+
+      return list;
+    });
+
+    if (errors.length > 0) {
+      throw new ErrorList().concat(errors);
+    }
+  }
 
   protected persistVault() {
     localStorage.setItem(ItemService.ItemStorageKey, JSON.stringify( this.itemVault.serialize() ) );
@@ -56,7 +98,7 @@ export class ItemService implements IItemService {
         throw new IllegalOperationError(`Não foi possível encontrar com item com o id ${entity.id}`);
       }
       Object.assign(item, entity);
-      this.businessValidations(item);
+      await this.businessValidations(item);
       this.itemVault.update(item.id, classToClass(item)); // ClassToClass = Deep Clone
     } else {
       // Create

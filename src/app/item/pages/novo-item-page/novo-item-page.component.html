@@ -1,3 +1,15 @@
 <av-page>
-  <p>Teste novo item</p>
+  <mat-card>
+    <av-item-form #avForm [entity]="item"></av-item-form>
+  </mat-card>
+
+  <button mat-button color="primary" (click)="onSave()" [disabled]="isValid()">
+    <mat-icon>save</mat-icon>
+    <span>Salvar</span>
+  </button>
+
+  <button mat-button (click)="onCancel()">
+    <mat-icon>cancel</mat-icon>
+    <span>Cancelar</span>
+  </button>
 </av-page>

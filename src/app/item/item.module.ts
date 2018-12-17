@@ -13,11 +13,14 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule,
+  MatDialogModule
 } from '@angular/material';
 import { ItemUnidadePipe } from './pipes/item-unidade.pipe';
 import { ItemGridFilterComponent } from './components/item-grid-filter/item-grid-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ItemFormComponent } from './components/item-form/item-form.component';
 
 @NgModule({
   imports: [
@@ -32,14 +35,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   declarations: [
     ItemGridPageComponent,
     NovoItemPageComponent,
     ItemUnidadePipe,
     ItemGridComponent,
-    ItemGridFilterComponent
+    ItemGridFilterComponent,
+    ItemFormComponent
   ]
 })
 export class ItemModule { }

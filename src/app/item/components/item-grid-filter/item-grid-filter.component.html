@@ -1,26 +1,31 @@
 <!-- Filters -->
-<div class="filter-area" [formGroup]="filters">
-  <mat-form-field>
-    <input matInput placeholder="Nome" formControlName="nome">
-  </mat-form-field>
+<div class="filter-area" [ngClass]="{ 'mobile-filter': isMobile }" [formGroup]="filters">
+  <div class="fields">
+    <mat-form-field>
+      <input matInput placeholder="Nome" formControlName="nome">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-select placeholder="Perecível" formControlName="isPerecivel">
-      <mat-option value="">Todos</mat-option>
-      <mat-option value="1">Perecíveis</mat-option>
-      <mat-option value="0">Não Perecível</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Perecível" formControlName="isPerecivel">
+        <mat-option>Todos</mat-option>
+        <mat-option *ngFor="let item of itemPerecivel" [value]="item.id">{{ item.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput [matDatepicker]="validade" placeholder="Validade" formControlName="validade">
-    <mat-datepicker-toggle matSuffix [for]="validade"></mat-datepicker-toggle>
-    <mat-datepicker #validade></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="validade" placeholder="Validade" formControlName="validade">
+      <mat-datepicker-toggle matSuffix [for]="validade"></mat-datepicker-toggle>
+      <mat-datepicker #validade></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput [matDatepicker]="fabricacao" placeholder="Fabricação" formControlName="fabricacao">
-    <mat-datepicker-toggle matSuffix [for]="fabricacao"></mat-datepicker-toggle>
-    <mat-datepicker #fabricacao></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="fabricacao" placeholder="Fabricação" formControlName="fabricacao">
+      <mat-datepicker-toggle matSuffix [for]="fabricacao"></mat-datepicker-toggle>
+      <mat-datepicker #fabricacao></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <button class="btn-clear" mat-icon-button (click)="onClear()">
+    <mat-icon>clear</mat-icon>
+  </button>
 </div>

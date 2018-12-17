@@ -1,10 +1,10 @@
-import { ItemUnitEnum } from '../enums/item-unidade.enum';
+import { ItemUnidadeEnum } from '../enums/item-unidade.enum';
 import { Type } from 'class-transformer';
 
 export class ItemEntity {
   id: number;
   nome: string; // Nome do item, Texto
-  unidade: ItemUnitEnum; // Unidade de medida, Enumeração
+  unidade: ItemUnidadeEnum; // Unidade de medida, Enumeração
   quantidade: number; // Quantidade, Numérico
   preco: number; // Preço, Monetário
   isPerecivel: boolean; // Produto perecível

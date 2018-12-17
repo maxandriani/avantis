@@ -7,10 +7,10 @@ describe('BTree', () => {
   /**
    * Insert sequence [ 5 4 7 3 8 1 9 0 2 6 ]
    * Tree
-   *       5
-   *      4   7
-   *     3  6   8
-   *  1           9
+   *         5
+   *      4     7
+   *     3  6     8
+   *  1              9
    * 0 2
    */
   beforeEach(() => {

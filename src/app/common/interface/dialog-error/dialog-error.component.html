@@ -1,0 +1,17 @@
+<div class="av-dialog av-dialog-error">
+  <h2 mat-dialog-title>{{data.title || 'Erro'}}</h2>
+<mat-dialog-content>
+  <p>{{data.message}}</p>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Ver detalhes</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <pre *ngIf="data.error">
+      {{ data.error.stack | json }}
+    </pre>
+  </mat-expansion-panel>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Ok</button>
+</mat-dialog-actions>

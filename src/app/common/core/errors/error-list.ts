@@ -13,6 +13,7 @@ export class ErrorList extends Error implements IterableIterator<Error> {
    */
   push(e: Error) {
     this._errors.push(e);
+    return this;
   }
 
   /**
@@ -20,6 +21,7 @@ export class ErrorList extends Error implements IterableIterator<Error> {
     */
   concat(ers: Error[]) {
     this._errors = this._errors.concat(ers);
+    return this;
   }
 
   /**

@@ -1,0 +1,74 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input matInput placeholder="Leite UHT Integral" formControlName="nome">
+    <mat-error *ngIf="form.get('nome').invalid">{{ getError(form.get('nome')) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Unidade de medida</mat-label>
+    <mat-select formControlName="unidade" placeholder="Selecione uma opção">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let option of itemUnidades" [value]="option.id">{{ option.name }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('unidade').invalid">{{ getError(form.get('unidade')) }}</mat-error>
+    <mat-hint>A unidade de medida representa o material do item, e influencia em sua armazenagem.</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="integerValue">
+    <mat-label>Quantidade (opcional)</mat-label>
+    <input matInput placeholder="1" formControlName="quantidade">
+    <span matSuffix>{{ unitType | async }}</span>
+    <mat-error *ngIf="form.get('quantidade').invalid">{{ getError(form.get('quantidade')) }}</mat-error>
+    <mat-hint>São permitidos apenas valores inteiros.</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!integerValue">
+    <mat-label>Quantidade (opcional)</mat-label>
+    <input matInput formControlName="quantidade" placeholder="1,00">
+    <span matSuffix>{{ unitType | async }}</span>
+    <mat-error *ngIf="form.get('quantidade').invalid">{{ getError(form.get('quantidade')) }}</mat-error>
+    <mat-hint>São permitidas apenas 3 casas decimais, os valores serão arredondados para cima.</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Preço (em Reais)</mat-label>
+    <span matPrefix>R$&nbsp;</span>
+    <input matInput formControlName="preco" placeholder="12,00">
+    <mat-error *ngIf="form.get('preco').invalid">{{ getError(form.get('preco')) }}</mat-error>
+    <mat-hint>São permitidos 2 casas decimais, os valores serão arredondados para cima</mat-hint>
+  </mat-form-field>
+
+  <div class="checkbox-area">
+    <mat-slide-toggle matInput formControlName="isPerecivel">Produto perecível</mat-slide-toggle>
+  </div>
+
+  <mat-form-field *ngIf="perecivel">
+    <mat-label>Validade</mat-label>
+    <input matInput [matDatepicker]="validade" placeholder="DD/MM/YYYY" formControlName="validade">
+    <mat-datepicker-toggle matSuffix [for]="validade"></mat-datepicker-toggle>
+    <mat-datepicker #validade></mat-datepicker>
+    <mat-error *ngIf="form.get('validade').invalid">{{ getError(form.get('validade')) }}</mat-error>
+    <mat-hint>Formato da data Dia/Mês/Ano</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!perecivel">
+    <mat-label>Validade (opcional)</mat-label>
+    <input matInput [matDatepicker]="validade" placeholder="DD/MM/YYYY" formControlName="validade">
+    <mat-datepicker-toggle matSuffix [for]="validade"></mat-datepicker-toggle>
+    <mat-datepicker #validade></mat-datepicker>
+    <mat-error *ngIf="form.get('validade').invalid">{{ getError(form.get('validade')) }}</mat-error>
+    <mat-hint>Formato da data Dia/Mês/Ano</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Fabricação</mat-label>
+    <input matInput [matDatepicker]="fabricacao" placeholder="DD/MM/YYYY" formControlName="fabricacao">
+    <mat-datepicker-toggle matSuffix [for]="fabricacao"></mat-datepicker-toggle>
+    <mat-datepicker #fabricacao></mat-datepicker>
+    <mat-error *ngIf="form.get('fabricacao').invalid">{{ getError(form.get('fabricacao')) }}</mat-error>
+    <mat-hint>Formato da data Dia/Mês/Ano</mat-hint>
+  </mat-form-field>
+
+</form>
