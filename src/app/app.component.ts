@@ -44,11 +44,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         .push([
           {
             label: 'Itens',
-            route: ''
+            route: 'items'
           },
           {
             label: 'Novo Item',
-            route: 'novo'
+            route: 'items/novo'
           }
         ]);
 

@@ -6,15 +6,24 @@ import { NovoItemPageComponent } from './pages/novo-item-page/novo-item-page.com
 const routes: Routes = [
   {
     path: '',
-    component: ItemGridPageComponent
+    component: ItemGridPageComponent,
+    data: {
+      label: 'Lista'
+    }
   },
   {
     path: 'novo',
-    component: NovoItemPageComponent
+    component: NovoItemPageComponent,
+    data: {
+      label: 'Novo Item'
+    }
   },
   {
     path: ':itemId',
-    component: NovoItemPageComponent
+    component: NovoItemPageComponent,
+    data: {
+      label: 'Item'
+    }
   }
 ];
 

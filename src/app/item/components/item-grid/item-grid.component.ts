@@ -31,7 +31,7 @@ export class ItemGridComponent implements OnInit {
   }
 
   async doEdit(item: ItemEntity): Promise<void> {
-    this.$router.navigate([`/${item.id}`]);
+    this.$router.navigate([`/items/${item.id}`]);
   }
 
   async doRemove(item: ItemEntity): Promise<void> {

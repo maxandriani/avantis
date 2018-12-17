@@ -1,3 +1,5 @@
-<p>
-  breadcrumb works!
-</p>
+<ol class="breadcrumb">
+  <li *ngFor="let item of breadcrumbs" class="breadcrumb-item">
+    <button mat-button [routerLink]="[ item.url ]" [queryParams]="item.params">{{item.label}}</button>
+  </li>
+</ol>
