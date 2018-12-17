@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogErrorComponent } from './dialog-error.component';
+import { MatDialogModule, MatExpansionModule, MAT_DIALOG_DATA } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DialogErrorComponent', () => {
   let component: DialogErrorComponent;
@@ -8,6 +10,14 @@ describe('DialogErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatDialogModule,
+        MatExpansionModule,
+        NoopAnimationsModule
+      ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ],
       declarations: [ DialogErrorComponent ]
     })
     .compileComponents();
